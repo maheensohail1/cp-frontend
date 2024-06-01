@@ -1,0 +1,21 @@
+os: linux
+files:
+  - source: /frontend
+    destination: /opt/devops-monitoring/frontend
+hooks:
+  ApplicationStop:
+    - location: docker-scripts/stop.sh
+      timeout: 300
+      runas: root
+  BeforeInstall:
+    - location: docker-scripts/beforeinstall.sh
+      timeout: 300
+      runas: root
+  Install:
+    - location: docker-scripts/afterinstall.sh
+      timeout: 300
+      runas: root
+  ApplicationStart:
+    - location: docker-scripts/start.sh
+      timeout: 300
+      runas: root
