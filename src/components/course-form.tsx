@@ -18,6 +18,7 @@ export const CourseForm = () => {
     const [formData, setFormData] = useState({
         title: "",
         description: "",
+        rating: "",
     });
 
     const handleInputChange = (e: any) => {
@@ -50,6 +51,7 @@ export const CourseForm = () => {
         setFormData({
             title: "",
             description: "",
+            rating: "",
         });
     };
 
@@ -78,6 +80,16 @@ export const CourseForm = () => {
                             size="md"
                             resize="vertical"
                             height="120px"
+                        />
+                    </FormControl>
+                    <FormControl id="rating" mb={4}>
+                        <FormLabel>Rating</FormLabel>
+                        <Input
+                            type="text"
+                            name="rating"
+                            value={formData.rating}
+                            onChange={handleInputChange}
+                            placeholder="Rate it out of 5"
                         />
                     </FormControl>
                     <Button colorScheme="teal" type="submit">
