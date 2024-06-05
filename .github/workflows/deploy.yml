@@ -50,5 +50,5 @@ jobs:
             docker stop frontend || true
             docker rm frontend || true
             docker run -d --name frontend -p 4000:4000 ${{ secrets.DOCKER_HUB_USERNAME }}/frontend:latest
-          EOT
-EOF
+          <<-EOF
+<<-EOF
