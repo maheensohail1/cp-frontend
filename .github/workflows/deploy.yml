@@ -45,4 +45,4 @@ jobs:
         run: |
           echo "${PRIVATE_KEY}" > private_key.pem
           chmod 600 private_key.pem
-          ssh -o StrictHostKeyChecking=no -i private_key.pem ${USER}@${BASTION_HOST} "ssh -o StrictHostKeyChecking=no -i private_key.pem ${USER}@${HOST} 'docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/frontend:latest && docker stop frontend || true && docker rm frontend || true && docker run -d --name frontend -p 4000:4000 ${{ secrets.DOCKER_HUB_USERNAME }}/frontend:latest'"
+          ssh -o StrictHostKeyChecking=no -i private_key.pem ${USER}@${BASTION_HOST} "ssh -o StrictHostKeyChecking=no -i /home/ubuntu/tf_test.pem ${USER}@${HOST} 'docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/frontend:latest && docker stop frontend || true && docker rm frontend || true && docker run -d --name frontend -p 4000:4000 ${{ secrets.DOCKER_HUB_USERNAME }}/frontend:latest'"
