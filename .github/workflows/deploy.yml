@@ -1,0 +1,53 @@
+name: Build and Deploy Frontend
+
+on:
+  push:
+    branches:
+      - master  # Change this to your branch name if needed
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '20'  # Match Node.js version in Dockerfile
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build the frontend
+        run: npm run build  # Adjust this command to your build script if different
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+
+      - name: Build Docker image
+        run: docker build -t ${{ secrets.DOCKER_HUB_USERNAME }}/frontend:latest .
+
+      - name: Push Docker image to Docker Hub
+        run: docker push ${{ secrets.DOCKER_HUB_USERNAME }}/frontend:latest
+
+      - name: Deploy to EC2
+        env:
+          PRIVATE_KEY: ${{ secrets.EC2_PRIVATE_KEY }}
+          BASTION_HOST: ${{ secrets.BASTION_HOST }}
+          HOST: ${{ secrets.EC2_HOST }}
+          USER: ${{ secrets.EC2_USER }}
+        run: |
+          echo "${PRIVATE_KEY}" > private_key.pem
+          chmod 600 private_key.pem
+          ssh -o StrictHostKeyChecking=no -i private_key.pem ${USER}@${BASTION_HOST} ssh -o StrictHostKeyChecking=no ${USER}@${HOST} << 'EOF'
+            docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/frontend:latest
+            docker stop frontend || true
+            docker rm frontend || true
+            docker run -d --name frontend -p 4000:4000 ${{ secrets.DOCKER_HUB_USERNAME }}/frontend:latest
+EOF
