@@ -11,7 +11,7 @@ export default ({ mode }: { mode: string }) => {
       port: 4000,
       proxy: {
         '/api': {
-          target: process.env.VITE_BACKEND_URL,
+          target: 'http://localhost:5000',
           changeOrigin: true
         }
       }

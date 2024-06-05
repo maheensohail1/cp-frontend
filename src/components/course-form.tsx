@@ -11,6 +11,8 @@ import {
     useToast
 } from "@chakra-ui/react";
 
+const API_URL = 'http://localhost:5000';
+
 export const CourseForm = () => {
     const toast = useToast()
     const [formData, setFormData] = useState({
@@ -31,7 +33,7 @@ export const CourseForm = () => {
         // You can perform any action with the form data here, like submitting to an API
         try {
 
-            const response = await fetch('/api/courses', {
+            const response = await fetch(`${API_URL}/api/courses`, {
                 method: "POST",
                 body: JSON.stringify({ title: formData.title, description: formData.description }),
                 headers: {
