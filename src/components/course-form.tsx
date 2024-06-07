@@ -13,7 +13,7 @@ import {
 
 const API_URL = 'http://localhost:5000';
 
-//added a comment to check workflow
+//added a comment to check CI/CD workflow
 
 export const CourseForm = () => {
     const toast = useToast()
