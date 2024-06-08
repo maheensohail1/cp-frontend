@@ -4,5 +4,5 @@ function App() {
   return <CourseForm />
 }
 
-//comment added
+//comment
 export default App
