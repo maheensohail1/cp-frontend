@@ -38,7 +38,7 @@ export const CourseForm = () => {
 
             const response = await fetch(`${API_URL}/api/courses`, {
                 method: "POST",
-                body: JSON.stringify({ title: formData.title, description: formData.description }),
+                body: JSON.stringify({ title: formData.title, description: formData.description, rating: formData.rating }),
                 headers: {
                     "Content-Type": "application/json",
                 },
